@@ -27,11 +27,12 @@ python highway_agent.py test
 
 ## Scenario 1
 
-![Scenario 1](images/Scenario1_1.png) | ![Scenario 1](images/Scenario1_1.png) | ![Scenario 1](images/Scenario1_1.png)
-|-------------------------------------|--------------------------------------|---------------------------------------|
+
+| <img src="images/Scenario1_1.png" alt="Scenario 1.1" width="150%"> | <img src="images/Scenario1_2.png" alt="Scenario 1.2" width="150%"> | <img src="images/Scenario1_3.png" alt="Scenario 1.3" width="150%"> |
+|--------------------------------------------------------------------|--------------------------------------------------------------------|--------------------------------------------------------------------|
 
 
-# Scenario 2
+## Scenario 2
 
 
 ![Scenario 2](images/Scenario2_1.png) | ![Scenario 2](images/Scenario2_2.png) | ![Scenario 2](images/Scenario2_3.png)
