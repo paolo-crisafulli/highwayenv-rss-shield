@@ -28,8 +28,9 @@ python highway_agent.py test
 ## Scenario 1
 
 
-| <img src="images/Scenario1_1.png" alt="Scenario 1.1" width="150%"> | <img src="images/Scenario1_2.png" alt="Scenario 1.2" width="150%"> | <img src="images/Scenario1_3.png" alt="Scenario 1.3" width="150%"> |
-|--------------------------------------------------------------------|--------------------------------------------------------------------|--------------------------------------------------------------------|
+| <img src="images/Scenario1_1.png" alt="Scenario 1.1" width="150%">                        | <img src="images/Scenario1_2.png" alt="Scenario 1.2" width="150%"> | <img src="images/Scenario1_3.png" alt="Scenario 1.3" width="150%"> |
+|-------------------------------------------------------------------------------------------|--------------------------------------------------------------------|--------------------------------------------------------------------|
+| A vehicle approaches another vehicle in the same lane from behind, the distance decreases | The rear vehicle brakes                                            |The rear vehicle continues braking to maintain the safety distance.|
 
 
 ## Scenario 2
