@@ -36,17 +36,20 @@ python highway_agent.py test
 ## Scenario 2
 
 
-![Scenario 2](images/Scenario2_1.png) | ![Scenario 2](images/Scenario2_2.png) | ![Scenario 2](images/Scenario2_3.png)
-|-------------------------------------|--------------------------------------|---------------------------------------|
+ ![Scenario 2](images/Scenario2_1.png)                                                      | ![Scenario 2](images/Scenario2_2.png)        | ![Scenario 2](images/Scenario2_3.png)                                    
+|--------------------------------------------------------------------------------------------|----------------------------------------------|--------------------------------------------------------------------------|
+| A vehicle approaches another vehicle in the same lane from behind, the distance decreases  | The rear vehicle switches to the right lane  | The rear vehicle completes switching to the right lane and accelerates.  |
 
 
 ## Scenario 3
 
-![Scenario 3](images/Scenario3_1.png) | ![Scenario 3](images/Scenario3_2.png) | ![Scenario 3](images/Scenario3_3.png)
-|-------------------------------------|--------------------------------------|---------------------------------------|
+ ![Scenario 3](images/Scenario3_1.png)                   | ![Scenario 3](images/Scenario3_2.png)                                              | ![Scenario 3](images/Scenario3_3.png)       
+|---------------------------------------------------------|------------------------------------------------------------------------------------|---------------------------------------------|
+| There is another vehicle on another lane further right  | The rear vehicle switches to the right lane, as the safety distance is maintained  | The rear vehicle continues driving forward  |
 
 
 ## Scenario 5
 
-![Scenario 5](images/Scenario5_1.png) | ![Scenario 5](images/Scenario5_2.png) | ![Scenario 5](images/Scenario5_3.png)
-|-------------------------------------|--------------------------------------|---------------------------------------|
+ ![Scenario 5](images/Scenario5_1.png)                   | ![Scenario 5](images/Scenario5_2.png)                                                         | ![Scenario 5](images/Scenario5_3.png)         
+|---------------------------------------------------------|-----------------------------------------------------------------------------------------------|-----------------------------------------------|
+| There is another vehicle on another lane further right  | The rear vehicle cannot switch to the center lane, as the safety distance is not maintained.  | The rear vehicle continues driving forward. - |
