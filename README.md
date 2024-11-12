@@ -25,6 +25,10 @@ python highway_agent.py test
 ## Scenarios
 
 
+In the following, we provide some scenarios.
+The controlled vehicle (ego vehicle) is marked in red.
+
+
 ## Scenario 1
 
 
