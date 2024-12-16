@@ -55,8 +55,8 @@ Blue vehicles are vehicles for which the safety distance will not be relevant in
 | There is another vehicle on another lane further right. | The Ego vehicle switches to the right lane, as the safety distance is maintained.  | The Ego  vehicle continues driving forward. |
 
 
-## Scenario 5
+## Scenario 4
 
- ![Scenario 5](images/Scenario5_1.png)                   | ![Scenario 5](images/Scenario5_2.png)                                                         | ![Scenario 5](images/Scenario5_3.png)       
-|---------------------------------------------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------|
-| There is another vehicle on another lane further right. | The Ego vehicle cannot switch to the center lane, as the safety distance is not maintained.   | The Ego vehicle continues driving forward.  |
+ ![Scenario 4](images/Scenario4_1.png)                   | ![Scenario 4](images/Scenario4_2.png)                                                       | ![Scenario 4](images/Scenario4_3.png)       
+|---------------------------------------------------------|---------------------------------------------------------------------------------------------|---------------------------------------------|
+| There is another vehicle on another lane further right. | The Ego vehicle cannot switch to the center lane, as the safety distance is not maintained. | The Ego vehicle continues driving forward.  |
