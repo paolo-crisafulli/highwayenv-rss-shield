@@ -1,8 +1,19 @@
-# ABZ 2025 Case Study
+# ABZ 2025 Case Study - RSS safety shield for single-lane scenarios
 
 ## Training and testing of agents
 
-Setup:
+### Setup
+
+Ensure you are using Python **3.10.12**,
+as the library versions specified in `requirements.txt`
+are incompatible with newer Python releases.
+
+We recommend using **pyenv**
+([GitHub repo](https://github.com/pyenv/pyenv))
+to manage your Python version.
+
+Once the correct Python version is set up,
+install the required version of `highway-env` by running:
 
 ```bash
 python -m venv env
@@ -10,60 +21,74 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-The agent for the Highway Environment can be trained or tested via command line:
+### Run
+
+To facilitate the reproduction of our case study results,
+agents for the Highway Environment can be trained or tested via the command line.
+
+Since the training phase is time-consuming, you can skip it,
+as the pre-trained models are already included in this repository.
 
 ```bash
-# To train a new model (save under models/highway_env):
-python highway_agent.py train
+# Train the base and adversarial single-lane agent models:
+python SafetyControllerCaseStudy.py train
 
-
-# Loads the trained model and runs and renders episodes over its behaviour:
-python highway_agent.py test
+# Load the trained models, run simulations, and render their behavior
+# under different conditions (with or without shielding,
+# and against IDM or Aggressive vehicles).
+python SafetyControllerCaseStudy.py test
 ```
 
+## Implementation
 
-## Scenarios
+To enhance reliability, we refactored the original code into a single Python module
+with a unified fundamental class, reducing potential issues caused by code duplication.
+
+Additionally, we fine-tuned the setup for greater accuracy:
+
+- The single-lane configuration allows only the `SLOWER`, `IDLE`, and `FASTER` actions.
+  We reported this to the ABZ 2025 case study organizers in this issue:
+  [hhu-stups/abz2025_casestudy_autonomous_driving#15](https://github.com/hhu-stups/abz2025_casestudy_autonomous_driving/issues/15)
+- Test runs use a fixed randomization seed, ensuring better reproducibility
+  of our case study results.
+
+### Agents
+
+Our experiments involve the following agents:
+
+- Single-lane Base agent: Implemented as the `HighwayAgent1laneBase` class.
+- Single-lane Adversarial agent: Implemented as the `HighwayAgent1laneAdversarial` class.
+
+All agents are derived from the `HighwayAgent` class.
+
+### Safety shield
+
+The safety shield is implemented in method `HighwayAgent.compute_rss`.
+
+## Agent Models
+
+The agent models are trained using machine learning,
+retaining the model and training parameters provided in the original
+case study repository:
+[hhu-stups/abz2025_casestudy_autonomous_driving](https://github.com/hhu-stups/abz2025_casestudy_autonomous_driving).
+
+In summary, we train a Deep Q-Network (DQN) reinforcement learning model
+using the Stable-Baselines3 library in Python.
+The Q-network consists of two hidden layers, each with 256 neurons.
+A discount factor of 0.9 is applied, prioritizing short-term rewards.
+
+All models are trained through interactions with IDM (Intelligent Driver Model) vehicles.
+During test runs, the ego vehicle may encounter either IDM or aggressive vehicles
+(as defined by the `AggressiveVehicle` class in `highway-env`).
+This setup allows us to evaluate the agent's behavior in unfamiliar situations.
 
 
-In the following, we provide some scenarios for a single-agent controller.
-The controlled vehicle (ego vehicle) is marked in red.
-Rosa vehicles are vehicles in the same lane for which the safety distance is relevant.
-Purple vehicles are vehicles for which the distance will become relevant when switching lanes.
-Blue vehicles are vehicles for which the safety distance will not be relevant in the next cycle.
+## Training and testing the original ABZ agent models
 
+The original models for the ABZ case study have been retained in this repository:
+see files `HighwayEnvironment_Adversarial.py`, `HighwayEnvironment_Base.py`,
+`HighwayEnvironment_Single_Adversarial.py`, `HighwayEnvironment_Single_Base.py`.
 
-## Scenario 1
+The documentation to train and test them is available here:
+[hhu-stups/abz2025_casestudy_autonomous_driving](https://github.com/hhu-stups/abz2025_casestudy_autonomous_driving)
 
-
-| <img src="images/Scenario1_1.png" alt="Scenario 1.1" width="150%">                         | <img src="images/Scenario1_2.png" alt="Scenario 1.2" width="150%"> | <img src="images/Scenario1_3.png" alt="Scenario 1.3" width="150%"> |
-|--------------------------------------------------------------------------------------------|--------------------------------------------------------------------|--------------------------------------------------------------------|
-| A vehicle approaches another vehicle in the same lane from behind, the distance decreases. | The Ego vehicle brakes.                                            |The Ego vehicle continues braking to maintain the safety distance. |
-
-
-## Scenario 2
-
-
- ![Scenario 2](images/Scenario2_1.png)                                                      | ![Scenario 2](images/Scenario2_2.png)        | ![Scenario 2](images/Scenario2_3.png)                                    
-|--------------------------------------------------------------------------------------------|----------------------------------------------|--------------------------------------------------------------------------|
-| A vehicle approaches another vehicle in the same lane from behind, the distance decreases. | The Ego vehicle switches to the right lane.  | The Ego vehicle completes switching to the right lane and accelerates.   |
-
-
-## Scenario 3
-
- ![Scenario 3](images/Scenario3_1.png)                   | ![Scenario 3](images/Scenario3_2.png)                                              | ![Scenario 3](images/Scenario3_3.png)       
-|---------------------------------------------------------|------------------------------------------------------------------------------------|---------------------------------------------|
-| There is another vehicle on another lane further right. | The Ego vehicle switches to the right lane, as the safety distance is maintained.  | The Ego  vehicle continues driving forward. |
-
-
-## Scenario 4
-
-![Scenario 4](images/Scenario4_1.png)                   | ![Scenario 4](images/Scenario4_2.png)                                                       | ![Scenario 4](images/Scenario4_3.png)
-|---------------------------------------------------------|---------------------------------------------------------------------------------------------|---------------------------------------------|
-| There is another vehicle on another lane further right. | The Ego vehicle cannot switch to the center lane, as the safety distance is not maintained. | The Ego vehicle continues driving forward.  |
-
-
-## Scenario 5
-
- ![Scenario 5](images/Scenario5_1.png)         | ![Scenario 5](images/Scenario5_2.png)           | ![Scenario 5](images/Scenario5_3.png)                                                 
-|-----------------------------------------------|-------------------------------------------------|---------------------------------------------------------------------------------------|
-| The Ego Vehicle drives on the left-most lane. | There is another vehicle on the right-most lane | Both vehicles decide to switch to the center lane, while maintaining safety distances |
