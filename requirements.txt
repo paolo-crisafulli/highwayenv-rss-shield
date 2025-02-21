@@ -2,3 +2,6 @@ gymnasium==0.28.1
 highway_env==1.8.2
 numpy==1.25.0
 stable_baselines3==2.0.0
+tensorboard
+tqdm
+rich

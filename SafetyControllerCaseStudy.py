@@ -345,8 +345,8 @@ class HighwayAgent:
         print("\rCrashes:", crashes, "/", self._test_runs, "runs", f"({crashes / self._test_runs * 100:0.1f} %)")
         print("\runsafe_steps:", unsafe_steps, "/", total_steps, "steps",
               f"({unsafe_steps / (total_steps) * 100:0.1f} %)")
-        print("\rmin_net_safe_d=", min_net_safe_d, f"(@run #{run_ix})")
-        print("\ravg_distance=", total_distance / self._test_runs)
+        print("\rmin_net_safe_d =", min_net_safe_d, f"(@run #{run_ix})")
+        print("\ravg_distance =", total_distance / self._test_runs)
         runs = float(self._test_runs)
         # print("\rSteps (avg.): unsafe_initial=", float(unsafe_initial_steps) / runs,
         #       "\tsafe=", float(safe_steps) / runs,
@@ -492,5 +492,4 @@ def test_all_single_lane_agents(runs):
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.WARN)
-    # main()
-    test_all_single_lane_agents(100)
+    main()
