@@ -389,7 +389,7 @@ class HighwayAgent3lanesAdversarial(HighwayAgent):
         self._env_config["collision_reward"] = 1
 
 
-class LegacyHighwayAgent1lane(HighwayAgent):
+class LegacyHighwayAgent1laneBase(HighwayAgent):
     def __init__(self, save_base_path: string = "base", model_id: string = None):
         super().__init__(save_base_path, model_id)
         self._env_config["lanes_count"] = 1
@@ -428,11 +428,11 @@ def test_3lanes_agent_adversarial_with_shield(runs):
 
 # === SINGLE LANE ===
 # *** train ***
-def train_1lane_agent():
-    LegacyHighwayAgent1lane().train()
+def train_1lane_legacy_base_agent():
+    LegacyHighwayAgent1laneBase().train()
 
 
-def train_1lane_strict_agent():
+def train_1lane_base_agent():
     HighwayAgent1laneBase().train()
 
 
@@ -441,18 +441,17 @@ def train_1lane_adversarial_agent():
 
 
 def train_all_single_lane_agents():
-    train_1lane_agent()
-    train_1lane_strict_agent()
+    train_1lane_base_agent()
     train_1lane_adversarial_agent()
 
 
 # *** test ***
 def test_legacy_1lane_agent(runs):
-    LegacyHighwayAgent1lane().set_test_runs(runs).test()
+    LegacyHighwayAgent1laneBase().set_test_runs(runs).test()
 
 
 def test_legacy_1lane_agent_with_shield(runs):
-    LegacyHighwayAgent1lane().set_shield_enabled(True).set_test_runs(runs).test()
+    LegacyHighwayAgent1laneBase().set_shield_enabled(True).set_test_runs(runs).test()
 
 
 def test_1lane_base_agent(runs):
