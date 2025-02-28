@@ -21,6 +21,7 @@ env.configure({
     "high_speed_reward": 1,
     "action": {
         "type": "DiscreteMetaAction",
+        "lateral": False,
         "target_speeds": [0,5,10,15,20,25,30,35,40]}
 })
 # env.configure({
