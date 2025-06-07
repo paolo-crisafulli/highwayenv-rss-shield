@@ -1,7 +1,7 @@
-gymnasium==0.28.1
-highway_env==1.8.2
-numpy==1.25.0
-stable_baselines3==2.0.0
+gymnasium
+highway_env==1.10.1
+numpy
+stable_baselines3
 tensorboard
 tqdm
 rich

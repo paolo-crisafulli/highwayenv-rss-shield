@@ -55,10 +55,11 @@ class HighwayAgent:
 
     @staticmethod
     def find_vehicle_in_front(env: HighwayEnvFast):
+        base_env = env.unwrapped
         # Get ego vehicle
-        ego_vehicle = env.vehicle  # Ego vehicle object
+        ego_vehicle = base_env.vehicle  # Ego vehicle object
         # Get all other vehicles
-        other_vehicles = env.road.vehicles
+        other_vehicles = base_env.road.vehicles
 
         # vehicles in front and same lane
         front_vehicles = [v for v in other_vehicles
@@ -125,14 +126,15 @@ class HighwayAgent:
 
     @staticmethod
     def compute_rss(rss_plus_enabled, env: HighwayEnv, state):
+        base_env = env.unwrapped
         # find index of action 'SLOWER'
-        actions = env.action_type.actions
+        actions = base_env.action_type.actions
         keys = [key for key, val in actions.items() if val == 'SLOWER']
         slower_action_key = keys[0]
 
-        obs_type: KinematicObservation = env.observation_type
-        ego = env.vehicle
-        veh_in_front = HighwayAgent.find_vehicle_in_front(env)
+        obs_type: KinematicObservation = base_env.observation_type
+        ego = base_env.vehicle
+        veh_in_front = HighwayAgent.find_vehicle_in_front(base_env)
 
         safe_action = None
         d_real = float("inf")
@@ -205,10 +207,24 @@ class HighwayAgent:
         env.close()
 
     def make_env(self):
-        env: HighwayEnvFast = gym.make("highway-fast-v0", render_mode='human')
-        env.configure(self._env_config)
-        env.reset()
+        """
+        Creates and returns the configured Highway environment.
+        """
+        # Ensure that the environment is registered and can accept configurations
+        env = gym.make(
+            "highway-fast-v0",
+            render_mode='human',
+            config=self._env_config  # Pass the environment configuration directly here.
+        )
+
+        #env.reset()  # Reset the environment to ensure it's ready for training.
         return env
+
+    # def make_env(self):
+    #     env: HighwayEnvFast = gym.make("highway-fast-v0", render_mode='human')
+    #     env.configure(self._env_config)
+    #     env.reset()
+    #     return env
 
     @staticmethod
     def base_config():
@@ -256,13 +272,21 @@ class HighwayAgent:
         save_path, model_path = self.get_paths()
 
         model = DQN.load(model_path)
-        env = self.make_env()
-        env.configure({"simulation_frequency": 15})
+
+        cfg = dict(self._env_config)
+        cfg.update({"simulation_frequency": 15})
         if self._aggressive_vehicles:
-            env.configure({"other_vehicles_type": "highway_env.vehicle.behavior.AggressiveVehicle"})
+            cfg.update({"other_vehicles_type": "highway_env.vehicle.behavior.AggressiveVehicle"})
+        env = gym.make(
+            "highway-fast-v0",
+            render_mode='human',
+            config=cfg
+        )
         env.reset(seed=self._test_seed)
-        print(f"config = {env.config}")
-        print("\rPossible actions:", env.action_type.actions)
+
+        base_env = env.unwrapped
+        print(f"config = {base_env.config}")
+        print("\rPossible actions:", base_env.action_type.actions)
 
         model_counters = [0] * 5
         shield_counters = [0] * 5
@@ -273,7 +297,7 @@ class HighwayAgent:
         run_ix = 0
         total_distance = 0.0
 
-        obs_type: KinematicObservation = env.observation_type
+        obs_type: KinematicObservation = base_env.observation_type
 
         total_steps = 0
         safe_steps = 0
@@ -291,8 +315,9 @@ class HighwayAgent:
                     = HighwayAgent.compute_rss(self._rss_plus_enabled, env, state)
                 d_inv = d_real - d_min
                 vehicle_in_front = HighwayAgent.find_vehicle_in_front(env)
-                d_real2 = env.vehicle.front_distance_to(vehicle_in_front)
-                v_r2 = env.vehicle.speed
+                base_env = env.unwrapped
+                d_real2 = base_env.vehicle.front_distance_to(vehicle_in_front)
+                v_r2 = base_env.vehicle.speed
                 v_f2 = vehicle_in_front.speed
 
                 if d_inv >= 0:
@@ -335,7 +360,7 @@ class HighwayAgent:
 
                 state = next_state
 
-            total_distance += env.vehicle.position[0]
+            total_distance += base_env.vehicle.position[0]
             logger.debug("\ractions: %s\tunsafe_model_actions=%s\ttotal_distance=%.2f",
                          model_counters, unsafe_steps, total_distance)
             logger.info("\rCrashes: %d / %d runs %s", crashes, self._test_runs,
@@ -363,10 +388,12 @@ def main():
         sys.exit(1)
 
     if sys.argv[1] == 'train':
-        train_all_single_lane_agents()
+        train_1lane_base_agent()
+        #train_all_single_lane_agents()
 
     elif sys.argv[1] == 'test':
-        test_all_single_lane_agents(100)
+        test_1lane_base_agent(100)
+        #test_all_single_lane_agents(100)
 
     else:
         display_script_help()
