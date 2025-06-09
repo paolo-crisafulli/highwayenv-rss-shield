@@ -1,4 +1,4 @@
-# ABZ 2025 Case Study - RSS safety shield for single-lane scenarios
+# RSS safety shield for highway-env scenarios
 
 ## Training and testing of agents
 
