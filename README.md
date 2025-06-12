@@ -1,5 +1,25 @@
 # RSS safety shield for highway-env scenarios
 
+## Goal
+
+Building on the initial experiments conducted for ABZ 2025
+([Case Study Description](https://abz-conf.org/site/2025/casestudy/),
+[Github repo](https://github.com/hhu-stups/abz2025_casestudy_autonomous_driving)),
+this project aims to integrate Intel's open-source implementation
+of the Responsibility Sensitive Safety (RSS) model
+([Github repo](https://github.com/intel/ad-rss-lib))
+as a safety shield for reinforcement learning models
+trained using the highway-env environment
+([Github repo](https://github.com/Farama-Foundation/HighwayEnv)).
+
+The goal is twofold: to create realistic scenarios that illustrate
+the application of RSS in complex driving situations,
+and to examine what may be the most complete operationalization
+of the RSS logic—an implementation, already successfully integrated
+with the CARLA driving simulator.
+([CARLA documentation](https://carla.readthedocs.io/en/latest/adv_rss/),
+[Github repo]()).
+
 ## Training and testing of agents
 
 ### Setup
